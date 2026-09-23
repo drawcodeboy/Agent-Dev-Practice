@@ -1,12 +1,12 @@
-# Agent
+# Agent Study
 
 ## Install
 ```
-conda create -n agent_dev python=3.12
-conda activate agent_dev
+conda create -n agent_dev_study python=3.12
+conda activate agent_dev_study
 ```
 
-## Freq. Note.
+## Freq. Note
 ```
 ## 환경 추출
 conda env export > environment.yml
@@ -15,4 +15,15 @@ conda env export --no-builds | sed '/^prefix:/d' > environment.yml # prefix는 �
 
 ## 환경 생성
 conda env create -f environment.yml
+```
+
+## Study
+1. FastAPI
+
+## Library Note
+```
+fastapi
+pydantic
+python-multipart # Upload Image
+langchain
 ```
