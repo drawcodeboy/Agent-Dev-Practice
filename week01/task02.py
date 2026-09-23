@@ -3,7 +3,7 @@ from fastapi import FastAPI, UploadFile, File
 app = FastAPI()
 
 @app.post("/upload-image")
-def upload_image(file: UploadFile = File(...)):
+async def upload_image(file: UploadFile = File(...)):
     return {
         "filename": file.filename,
         "content_type": file.content_type
