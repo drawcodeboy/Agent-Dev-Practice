@@ -1,4 +1,10 @@
-# Task 1 Questions
+# Task 1 
+
+### To Do
+
+: FastAPI 기본 문법, GET/POST, Swagger 이해
+
+### Questions
 
 1. HTTP GET이란 무엇인가?
     
@@ -19,7 +25,13 @@
     - 내가 만든 API 목록을 자동으로 문서화
     - 각 API를 브라우저에서 직접 테스트 (Try it out 버튼으로 수행 가능)
 
-# Task 2 Questions
+# Task 2
+
+### To Do
+
+: 이미지 업로드 API 구현
+
+### Questions
 
 1. `app.post()`는 그럼 해당 URL에 데이터를 보내는 건가?
     
@@ -50,3 +62,50 @@
 5. `async`는 무엇인가? 함수 앞에 왜 붙이는가?
     
     비동기 처리 함수를 선언하고자 할 때, 붙이는 문법이다. 해당 함수가 실행 될 때, 기다리는 동안 다른 작업을 수행할 수 있도록 한다.
+
+# Task 3
+
+### To Do
+
+: PyTorch pretrained 모델 연결
+
+### Questions
+
+* None
+
+# Task 4
+
+### To Do
+
+: 예외 처리, request/response schema 정리
+
+### Questions
+
+1. `pydantic`의 `BaseModel`을 통해 response의 구조(형태)를 왜 정해두어야 할까? 딕셔너리로 동일한 역할을 수행할 수 있지 않은가?
+
+    * 무엇이 더 나은지 모르겠음.
+
+
+# Task 5
+
+### To Do
+
+: Dockerfile 작성 및 실행
+
+### Quesitons
+
+# Task 6
+
+### To Do
+
+: logging, latency 측정 추가
+
+### Quesitons
+
+# Task 7
+
+### To Do
+
+: README 및 API 사용 예제 정리
+
+### Quesitons
