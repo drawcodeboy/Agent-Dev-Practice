@@ -94,6 +94,63 @@
 
 ### Quesitons
 
+#### 이미지 빌드
+
+```bash
+docker build -t image-api .
+```
+
+- `docker build` -  Dockerfile의 지시대로 이미지를 만든다.
+- `-t [image name]:[tag name]` - 이미지 명, 태그 명 지정하여 이미지 만듬. (e.g. `-t image-api:v1`), 태그 명 지정 안 하면 `latest`로 잡힘
+- `.` - 현재 폴더를 빌드 컨텍스트로 지정한다. Dockerfile에서 `COPY`로 가져올 파일들의 기준 위치
+- Dockerfile의 위치 지정 방법 (지정하지 않으면, `.`에서 탐색하여 씀) : `-f docker/Dockerfile`
+    
+    ```bash
+    docker build -f docker/Dockerfile -t image-api:v1 .
+    ```
+    
+#### Dockerfile 작성
+
+```docker
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# CPU용 PyTorch 설치
+RUN pip install --no-cache-dir torch torchvision \
+    --index-url https://download.pytorch.org/whl/cpu
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+- `FROM` - 이미지 가져오기
+- `WORKDIR /app` - 이미지 내부 작업 폴더를 `/app`으로 지정한다. `/app`가 없으면 생성한다. 그리고, 이후 명령은 이 위치를 기준으로 실행된다.
+- `RUN command` - `command` 명령 실행
+- `COPY . .` - 빌드 컨텍스트 모든 파일을 이미지 내부 현재 작업 폴더인 `/app`에 복사한다.
+    - `COPY requirements.txt .` - 빌드 컨텍스트 내 `requirements.txt`를 `/app`에 복사한다.
+    - `COPY [build context] [target location]`
+- `CMD command` - `command` 명령 실행 (단, 컨테이너 시작할 때마다 실행), `RUN command`는 이미지 빌드 중 실행한다. 설치한 패키지나 생성한 파일이 이미지에 저장된다.
+
+#### 컨테이너 실행
+
+```docker
+docker run --rm -p 127.0.0.1:8001:8000 image-api
+```
+
+- `docker run` - 이미지로 새 컨테이너를 만들고 실행
+- `--rm` - 컨테이너가 종료되면 자동으로 삭제한다. 이미지는 남는다.
+- `-p 127.0.0.1:8001:8000` - 내 컴퓨터의 `127.0.0.1:8001`으로 들어온 요청을 내부의 `8000`번 포트로 전달한다.
+- `image-api` - 실행할 이미지
+
+#### Docker: 이외에 유용한 명령어
+
+- `docker ps` - 돌아가고 있는 docker 컨테이너 프로세스 확인, 닫힌 거까지 확인하려면 `-al` 옵션 붙이면 됨
+
 # Task 6
 
 ### To Do
@@ -101,6 +158,39 @@
 : logging, latency 측정 추가
 
 ### Quesitons
+
+#### logging
+
+```python
+logger = logging.getLogger("uvicorn.error")
+```
+
+- uvicorn이 설정한 로깅 방식으로 그대로 이용하는 로거를 선언
+
+#### app middleware
+
+```python
+@app.middleware("http")
+```
+
+- HTTP 요청용 미들웨어를 등록
+- 미들웨어: 요청이 API에 도달하기 전과 응답이 나가기 전에 실행되는 공통 처리 코드
+- 여러 API에 공통으로 필요한 로깅, 인증, 시간 측정 등을 한 곳에서 처리할 수 있음
+
+#### `finally` 문법
+
+- `try`와 `except`에서 하나가 실행 되면, 어느 것이 실행되든 상관 없이 실행 되는 문법
+
+#### `time.perf_counter()`
+
+- 초 단위에 정밀한 시간 체크 함수, `*1000`을 하면 ms 단위로 바뀜
+
+#### `async def` 질문
+
+- `async def`는 본 함수가 처리되는 동안 다른 작업을 허용할 수 있는 비동기 처리 함수의 선언 방법이다.
+- 다른 작업을 허용하는 방식은 비동기 처리 함수 내에 `await`를 씀으로서 이를 가능하게 한다.
+- 예를 들어, `result = await task_a()`와 같은 라인이 있다고 할 때, `task_a()`가 실행되는 것을 기다리는 동안 이벤트 루프에 등록된 다른 작업을 수행한다. (단, `task_a()`내에서 점유권을 넘기는 코드가 있어야 이벤트 루프에 등록된 다른 작업을 수행할 수 있다.)
+    - 이때, 이벤트 루프에 등록된 다른 작업이라고 하는 것은 다음 라인의 코드를 의미하는 것이 아니다. 다음 라인의 코드는 오히려 실행되지 않고 `task_a()`의 실행이 끝날 때까지 기다려야 하는 대상이다.
 
 # Task 7
 
