@@ -4,3 +4,4 @@ python-multipart # Upload Image
 langchain
 torch
 uvicorn
+torchvision

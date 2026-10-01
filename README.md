@@ -3,8 +3,8 @@
 
 ## Install
 ```
-conda create -n agent_dev_study python=3.12
-conda activate agent_dev_study
+conda create -n agent_dev python=3.12
+conda activate agent_dev
 ```
 
 ## Freq. Note
@@ -20,11 +20,3 @@ conda env create -f environment.yml
 
 ## Study
 1. FastAPI
-
-## Library Note
-```
-fastapi
-pydantic
-python-multipart # Upload Image
-langchain
-```
