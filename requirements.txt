@@ -1,0 +1,6 @@
+fastapi
+pydantic
+python-multipart # Upload Image
+langchain
+torch
+uvicorn
