@@ -5,7 +5,7 @@ from torchvision.models import MobileNet_V3_Small_Weights, mobilenet_v3_small
 
 from PIL import Image, UnidentifiedImageError
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 
 from pydantic import BaseModel
 
