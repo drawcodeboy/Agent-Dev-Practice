@@ -23,8 +23,8 @@ class PredictionResponse(BaseModel):
     label: str
     confidence: float
 
-@app.post("/predict")
-async def predict(file: UploadFile = File(...), response_model=PredictionResponse):
+@app.post("/predict", response_model=PredictionResponse)
+async def predict(file: UploadFile = File(...)):
     try:
         image_bytes = await file.read()
         image = Image.open(BytesIO(image_bytes)).convert('RGB')
